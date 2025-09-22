@@ -1,19 +1,17 @@
 package com.example.xmldi.contents;
 
-public class ToyContents implements Contents {
-    private final String type;
+import org.springframework.stereotype.Component;
 
-    public ToyContents(String type) {
-        this.type = type;
+@Component("toyContents")
+public class ToyContents implements Contents {
+    private final String name;
+
+    public ToyContents() {
+        this.name = "Радиоуправляемая машина";
     }
 
     @Override
     public String describe() {
-        return "Игрушка: " + type;
-    }
-
-    @Override
-    public String toString() {
-        return "ToyContents{type='" + type + "'}";
+        return "Игрушка: " + name;
     }
 }

@@ -1,28 +1,21 @@
+// com/example/xmldi/Main.java
 package com.example.xmldi;
 
 import com.example.xmldi.box.Box;
+import com.example.xmldi.config.AppConfig;
 import com.example.xmldi.support.LabelHolder;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-        System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
+    public static void main(String[] args) {
+        try (AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class)) {
+            Box book = ctx.getBean("bookBox", Box.class);
+            Box toy  = ctx.getBean("toyBox", Box.class);
+            LabelHolder label = ctx.getBean(LabelHolder.class);
 
-        try (ClassPathXmlApplicationContext ctx =
-                     new ClassPathXmlApplicationContext("applicationContext.xml")) {
-
-            Box bookBox = ctx.getBean("bookBox", Box.class);
-            Box toyBox = ctx.getBean("toyBox", Box.class);
-            LabelHolder labelHolder = ctx.getBean("labelHolder", LabelHolder.class);
-
-            System.out.println(bookBox.info());
-            System.out.println(toyBox.info());
-
-            System.out.println(labelHolder.print());
+            System.out.println(book.info());
+            System.out.println(toy.info());
+            System.out.println(label.print());
         }
     }
 }
